@@ -2,7 +2,7 @@
 \alias{aoristic.df}
 \title{creating a data.frame for aoristic analysis}
 \usage{
-  aoristic.df(data, DateTimeFrom, DateTimeTo)
+aoristic.df(data, DateTimeFrom, DateTimeTo)
 }
 \arguments{
   \item{data}{data.frame with a minimum of 2 columns
@@ -17,21 +17,22 @@
   as 1 hour.}
 }
 \value{
-  data.frame
+data.frame
 }
 \description{
-  creating a data.frame for aoristic analysis
+creating a data.frame for aoristic analysis
 }
 \examples{
 \donttest{
+data(aoristic)
 data2 <- aoristic.df(data=arlington,
    DateTimeFrom="DateTimeFrom", DateTimeTo="DateTimeTo")
 head(data2)
 }
 }
 \references{
-  Ratcliffe, J. H. (2002). Aoristic Signatures and the
-  Spatio-Temporal Analysis of High Volume Crime Patterns.
-  Journal of Quantitative Criminology, 18(1), 23-43.
+Ratcliffe, J. H. (2002). Aoristic Signatures and the
+Spatio-Temporal Analysis of High Volume Crime Patterns.
+Journal of Quantitative Criminology, 18(1), 23-43.
 }
 

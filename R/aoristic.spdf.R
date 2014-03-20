@@ -6,9 +6,11 @@
 #' @param lat a character vector of the column name for latitude
 #' @return spatial point data frame (SPDF)
 #' @import lubridate classInt reshape2 GISTools ggplot2 spatstat
+#' @export
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
 #' @examples
 #' \donttest{
+#' data(aoristic)
 #' data.spdf <- aoristic.spdf(data=arlington, 
 #'    DateTimeFrom="FrmDateTimeFull", DateTimeTo="ToDateTimeFull", 
 #'    lon="lon", lat="lat")
@@ -20,7 +22,7 @@ aoristic.spdf <- function(data, DateTimeFrom, DateTimeTo, lon, lat){
   if(!is.numeric(data[,lon])){stop("the longitude is not numeric")}
   if(!is.numeric(data[,lat])){stop("the latitude is not numeric")}
   
-  CRS <- "+proj=longlat +datum=WGS84"
+  CRS <- "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   
   duration <- as.numeric(difftime(data[,DateTimeTo], data[,DateTimeFrom], units="hours") + 1 )
   HourFrom <- hour(data[,DateTimeFrom])

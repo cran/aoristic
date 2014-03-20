@@ -2,7 +2,7 @@
 \alias{aoristic.spdf}
 \title{creating a spatial.polygon.data.frame for aoristic analysis}
 \usage{
-  aoristic.spdf(data, DateTimeFrom, DateTimeTo, lon, lat)
+aoristic.spdf(data, DateTimeFrom, DateTimeTo, lon, lat)
 }
 \arguments{
   \item{data}{data.frame with a minimum of 4 columns
@@ -22,22 +22,22 @@
   latitude}
 }
 \value{
-  spatial point data frame (SPDF)
+spatial point data frame (SPDF)
 }
 \description{
-  creating a spatial.polygon.data.frame for aoristic
-  analysis
+creating a spatial.polygon.data.frame for aoristic analysis
 }
 \examples{
 \donttest{
+data(aoristic)
 data.spdf <- aoristic.spdf(data=arlington,
    DateTimeFrom="FrmDateTimeFull", DateTimeTo="ToDateTimeFull",
    lon="lon", lat="lat")
 }
 }
 \references{
-  Ratcliffe, J. H. (2002). Aoristic Signatures and the
-  Spatio-Temporal Analysis of High Volume Crime Patterns.
-  Journal of Quantitative Criminology, 18(1), 23-43.
+Ratcliffe, J. H. (2002). Aoristic Signatures and the
+Spatio-Temporal Analysis of High Volume Crime Patterns.
+Journal of Quantitative Criminology, 18(1), 23-43.
 }
 

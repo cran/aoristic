@@ -4,8 +4,10 @@
 #' @return kml file (an output folder will be generated in the current working directory)
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
 #' @import lubridate classInt reshape2 GISTools ggplot2 spatstat
+#' @export
 #' @examples
 #' \donttest{
+#' data(aoristic)
 #' data.spdf <- aoristic.spdf(data=arlington, 
 #'    DateTimeFrom="DateTimeFrom", DateTimeTo="DateTimeTo", 
 #'    lon="lon", lat="lat")
@@ -20,8 +22,7 @@ aoristic.shp <- function(spdf, area.shp){
   time23=NULL
   freq=NULL
   
-  CRS <- "+proj=longlat +datum=WGS84"
-  # CRS <- "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+  CRS <- "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   if(!area.shp@proj4string@projargs==CRS(CRS)@projargs){stop("the coordinate reference system is not in WGS84")}
   
   # create output location

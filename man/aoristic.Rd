@@ -1,0 +1,18 @@
+\docType{data}
+\name{aoristic}
+\alias{aoristic}
+\title{Sample data of crime (df) and council district (spdf)}
+\source{
+City of Arlington
+}
+\usage{
+aoristic
+}
+\description{
+Sample data of burglary incident data frame and spatial
+polygon data frame of council districts.
+}
+\author{
+George Kikuchi, 2013-09-13
+}
+
