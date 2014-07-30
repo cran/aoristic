@@ -1,4 +1,6 @@
 data(aoristic)
+options(demo.ask=FALSE)
+
 # testing aoristic.df
 data.ar <- aoristic.df(data=arlington, DateTimeFrom="DateTimeFrom", DateTimeTo="DateTimeTo")
 head(data.ar)

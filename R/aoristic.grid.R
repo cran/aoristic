@@ -1,8 +1,10 @@
 #' aoristic graph by grid count
 #' @param spdf spatial point data frame produced from aoristic.spdf
-#' @return kml file (an output folder will be generated in the current working directory)
+#' @param nxy the number of grids in the x and y directions (a minimum of 2 and a default value of 5)
+#' @param output a character representing the name of an output folder (the folder will be generated in the current working directory; default name = output) 
+#' @return kml file 
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
-#' @import lubridate classInt reshape2 GISTools ggplot2 spatstat
+#' @import lubridate classInt reshape2 GISTools ggplot2 spatstat rgdal
 #' @export
 #' @examples
 #' \donttest{
@@ -10,10 +12,10 @@
 #' data.spdf <- aoristic.spdf(data=arlington, 
 #'    DateTimeFrom="DateTimeFrom", DateTimeTo="DateTimeTo", 
 #'    lon="lon", lat="lat")
-#' aoristic.grid(spdf=data.spdf)
+#' aoristic.grid(spdf=data.spdf, nxy=5)
 #' }
 
-aoristic.grid <- function(spdf){
+aoristic.grid <- function(spdf, nxy=5, output="output"){
   
   #defining variables (to avoid "Note" in the package creation)
   sortID=NULL
@@ -21,16 +23,27 @@ aoristic.grid <- function(spdf){
   time23=NULL
   freq=NULL
   
+  # checking arguments
+  nxy <- round(nxy)
+  
+  if (nxy < 2) {stop("the number of grid columns need to be 2 or greater")}
+    
   # creating output folder
   folder.location <- getwd()
-  dir.create(file.path(folder.location, "output"), showWarnings = FALSE)
-  dir.create(file.path(folder.location, "output", "Grid"), showWarnings = FALSE)
-  setwd(file.path(folder.location, "output", "Grid"))  
+  tryCatch({
+    dir.create(file.path(folder.location, output), showWarnings = FALSE)
+    dir.create(file.path(folder.location, output, "Grid"), showWarnings = TRUE)
+  }, warning=function(w){
+    stop(paste("The output folder already exists in: ", getwd(), "/", output, "/Grid", sep=""))
+  })
+  
+  
+  setwd(file.path(folder.location, output, "Grid"))  
   
   # create data
   data.ppp <- as(spdf, "ppp")
-  bb <- bounding.box(data.ppp)
-  qc <- quadratcount(data.ppp, nx=5, ny=5)
+  qc <- quadratcount(data.ppp, nx=nxy, ny=nxy)
+  
 
   x <- list()
   for (i in 1:(length(attr(qc, "tess")$xgrid)-1)){
@@ -138,7 +151,7 @@ out <- sapply(slot(area.shp, "polygons"), function(x) { kmlPolygon(x,
                                                                    description=paste("<img src=", 
                                                                                      as(area.shp, "data.frame")[slot(x, "ID"), "img"], " width=\"450\">", sep=""))})
 
-kml.folder <- file.path(folder.location, "output", "Grid")
+kml.folder <- file.path(folder.location, output, "Grid")
 tf <- file.path(kml.folder, "Aoristic_Grid.kml")
 
 kmlFile <- file(tf, "w")
@@ -148,4 +161,13 @@ cat(unlist(out["style",]), file=kmlFile, sep="\n")
 cat(unlist(out["content",]), file=kmlFile, sep="\n")
 cat(kmlPolygon()$footer, file=kmlFile, sep="\n")
 close(kmlFile)
+
+setwd(folder.location) 
+
+print(paste("KML output file is in ", getwd(), "/", output, "/Grid", sep=""))
+
+browseURL(file.path(folder.location, output))
+
+browseURL(file.path(folder.location, output, "Grid", "Aoristic_Grid.kml"))
+
 }

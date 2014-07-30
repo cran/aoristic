@@ -2,7 +2,7 @@
 #' 
 #' @param data data.frame with a minimum of 2 columns representing FromDateTime, and ToDateTime 
 #' @param DateTimeFrom a character vector of the column name for FromDateTime (POSIXct date-time object)
-#' @param DateTimeTo a character vector of the column name for ToDateTime (POSIXct date-time object).  If ending date-time is missing, duration of an event will be coded as 1 hour.
+#' @param DateTimeTo a character vector of the column name for ToDateTime (POSIXct date-time object).  If ending date-time is missing, the duration of an event will be coded as 1 hour.
 #' @return data.frame
 #' @import lubridate
 #' @export
@@ -10,14 +10,14 @@
 #' @examples
 #' \donttest{
 #' data(aoristic)
-#' data2 <- aoristic.df(data=arlington, 
+#' data <- aoristic.df(data=arlington, 
 #'    DateTimeFrom="DateTimeFrom", DateTimeTo="DateTimeTo")
-#' head(data2)
+#' head(data)
 #' }
 aoristic.df <- function(data, DateTimeFrom, DateTimeTo){
   if(!is.data.frame(data)) {stop("the input data frame specified is not a data.frame object")}
-  if(!is.POSIXct(data[,DateTimeFrom])) {stop("the DateTimeFrom field is not POSIXct object.  Use lubridate before using this function")}
-  if(!is.POSIXct(data[,DateTimeTo])) {stop("the DateTimeTo field is not POSIXct object.  Use lubridate before using this function")}
+  if(!class(data[,DateTimeFrom])[1]=="POSIXct") {stop("the DateTimeFrom field is not POSIXct object.  Use the lubridate package before using this function")}
+  if(!class(data[,DateTimeTo])[1]=="POSIXct")   {stop("the DateTimeTo field is not POSIXct object.  Use the lubridate package before using this function")}
   
   duration <- as.numeric(difftime(data[,DateTimeTo], data[,DateTimeFrom], units="hours") + 1 )
   HourFrom <- hour(data[,DateTimeFrom])

@@ -16,13 +16,19 @@
 #'    lon="lon", lat="lat")
 #' }
 aoristic.spdf <- function(data, DateTimeFrom, DateTimeTo, lon, lat){
+  
+  # check arguments
   if(!is.data.frame(data)) {stop("the input data frame specified is not a data.frame object")}
-  # if(!is.POSIXct(data[,DateTimeFrom])) {stop("the DateTimeFrom field is not POSIXct object.  Use lubridate before using this function")}
-  # if(!is.POSIXct(data[,DateTimeTo])) {stop("the DateTimeTo field is not POSIXct object.  Use lubridate before using this function")}
+  if(!class(data[,DateTimeFrom])[1]=="POSIXct") {stop("the DateTimeFrom field is not POSIXct object.  Use the lubridate package before using this function")}
+  if(!class(data[,DateTimeTo])[1]=="POSIXct")   {stop("the DateTimeTo field is not POSIXct object.  Use the lubridate package before using this function")}
   if(!is.numeric(data[,lon])){stop("the longitude is not numeric")}
   if(!is.numeric(data[,lat])){stop("the latitude is not numeric")}
   
+  # ver 0.3
   CRS <- "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+  # ver 0.5
+  # CRS <- "+init=epsg:4326" # causes errors in aoristic.density with GE_SpatialGrid()
+  
   
   duration <- as.numeric(difftime(data[,DateTimeTo], data[,DateTimeFrom], units="hours") + 1 )
   HourFrom <- hour(data[,DateTimeFrom])

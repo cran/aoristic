@@ -1,16 +1,18 @@
-#' Creating a general aoristic graph using all data 
+#' Creating a data frame for an aoristic graph using all data 
 #' @param data data.frame created by aoristic.df
-#' @return graph data.frame with two columns (hour, frequency) used to create an aoristic graph for the entire study area
+#' @return graph data.frame with two columns (hour, freq) used to create an aoristic graph for the entire study area
 #' @import lubridate
 #' @export
 #' @examples
 #' \donttest{
 #' data(aoristic)
-#' data <- aoristic.df(data=arlington)
+#' data <- aoristic.df(data=arlington, 
+#'          DateTimeFrom="DateTimeFrom", DateTimeTo="DateTimeTo")
 #' graph <- aoristic.all.graph(data=data)
 #' ggplot(graph, aes(x=hour, y=freq)) + 
 #'    geom_bar(stat="identity") + 
 #'    ggtitle("Aoristic Graph for the Entire Study Area")
+#'       
 #' }
 aoristic.all.graph <- function(data){
   

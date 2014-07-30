@@ -1,9 +1,10 @@
 #' aoristic graph by shapefile boundary
 #' @param spdf spatial point data frame produced from aoristic.spdf
 #' @param area.shp spatial polygon data frame used as a boundary in WGS84
-#' @return kml file (an output folder will be generated in the current working directory)
+#' @param output a character representing the name of an output folder (the folder will be generated in the current working directory; default name = output) 
+#' @return kml file
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
-#' @import lubridate classInt reshape2 GISTools ggplot2 spatstat
+#' @import lubridate classInt reshape2 GISTools ggplot2 spatstat plotKML
 #' @export
 #' @examples
 #' \donttest{
@@ -14,7 +15,7 @@
 #' aoristic.shp(spdf=data.spdf, area.shp=CouncilDistrict)
 #' }
 
-aoristic.shp <- function(spdf, area.shp){
+aoristic.shp <- function(spdf, area.shp, output="output"){
   
   #defining variables (to avoid "Note" in the package creation)
   sortID=NULL
@@ -22,16 +23,37 @@ aoristic.shp <- function(spdf, area.shp){
   time23=NULL
   freq=NULL
   
+  # check projections
+  m <- match.call()
+  if (is.na(area.shp@proj4string@projargs) | area.shp@proj4string@projargs==""){
+    stop(paste("Projection information of", m$area.shp, "is missing!"))
+  }
+  
+  # ver 0.3
   CRS <- "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-  if(!area.shp@proj4string@projargs==CRS(CRS)@projargs){stop("the coordinate reference system is not in WGS84")}
+  # if(!area.shp@proj4string@projargs==CRS(CRS)@projargs){stop("the coordinate reference system is not in WGS84")}
+  
+  # ver 0.5
+  # CRS <- "+init=epsg:4326"
+  # if(!area.shp@proj4string@projargs==CRS(CRS)@projargs){
+  #  area.shp <- spTransform(area.shp, CRS(CRS))
+  #}
+  
+  if (!check_projection(area.shp)){
+    area.shp <- reproject(area.shp)
+  }
   
   # create output location
   folder.location <- getwd()
-  dir.create(file.path(folder.location, "output"), showWarnings = FALSE)
-  dir.create(file.path(folder.location, "output", "GISboundary"), showWarnings = FALSE)
+  tryCatch({
+    dir.create(file.path(folder.location, output), showWarnings = FALSE)
+    dir.create(file.path(folder.location, output, "GISboundary"), showWarnings = TRUE)
+  }, warning=function(w){
+    stop(paste("The output folder already exists in: ", getwd(), "/", output, "/GISboundary", sep=""))
+  })
   
   # set output location
-  setwd(file.path(folder.location, "output", "GISboundary"))
+  setwd(file.path(folder.location, output, "GISboundary"))
   
   area.shp@data$sortID <- seq(1, nrow(area.shp@data), 1)
   area.shp <- area.shp[order(area.shp@data$sortID),]
@@ -62,7 +84,7 @@ aoristic.shp <- function(spdf, area.shp){
   graph2 <- graph2[order(graph2[1], graph2$hour),]
   
   # set output directory
-  setwd(file.path(folder.location, "output", "GISboundary"))
+  setwd(file.path(folder.location, output, "GISboundary"))
   
   # aoristic graphs by GIS area through for-loop
   for (i in 1:nrow(area.shp@data)){
@@ -106,7 +128,7 @@ aoristic.shp <- function(spdf, area.shp){
                                                                      description=paste("<img src=", 
                                                                                        as(area.shp, "data.frame")[slot(x, "ID"), "img"], " width=\"450\">", sep=""))})
   
-  kml.folder <- file.path(folder.location, "output", "GISboundary")
+  kml.folder <- file.path(folder.location, output, "GISboundary")
   tf <- file.path(kml.folder, "Aoristic_GIS_boundary.kml")
   
   kmlFile <- file(tf, "w")
@@ -118,5 +140,11 @@ aoristic.shp <- function(spdf, area.shp){
   close(kmlFile)
   
  setwd(folder.location) 
-
+ 
+ print(paste("KML output file is in ", getwd(), "/", output, "/GISboundary", sep=""))
+ 
+ browseURL(file.path(folder.location, output))
+ 
+ browseURL(file.path(folder.location, output, "GISboundary", "Aoristic_GIS_boundary.kml"))
+ 
 }
