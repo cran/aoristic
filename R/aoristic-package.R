@@ -15,7 +15,7 @@ NULL
 #' @title arlington burglary incident data (data frame)
 #' @description A data frame of burglary incidents in the Arlington PD with four fields (DateTimeFrom, DateTimeTo, lon/lat).
 #' @docType data
-#' @usage arlington
+#' @usage data(aoristic)
 #' @source Arlington PD 
 #' @author George Kikuchi, 2013-09-13
 NULL
@@ -23,7 +23,7 @@ NULL
 #' @title Council district (spatial polygon data frame)
 #' @description A spatial polygon data frame of council districts in the Arlington PD jurisdiction.
 #' @docType data
-#' @usage CouncilDistrict
+#' @usage data(aoristic)
 #' @source City of Arlington 
 #' @author George Kikuchi, 2013-09-13
 NULL
@@ -31,7 +31,7 @@ NULL
 #' @title Sample data of crime (df) and council district (spdf)
 #' @description Sample data of burglary incident data frame and spatial polygon data frame of council districts.
 #' @docType data
-#' @usage aoristic
+#' @usage data(aoristic)
 #' @source City of Arlington 
 #' @author George Kikuchi, 2013-09-13
 NULL

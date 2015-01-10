@@ -7,6 +7,9 @@
 #' @return kml file
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
 #' @import lubridate classInt reshape2 GISTools ggplot2 spatstat
+#' @importFrom MASS kde2d
+#' @importFrom sp proj4string Polygons Polygon SpatialPolygons CRS SpatialPolygonsDataFrame as.image.SpatialGridDataFrame
+#' @importFrom maptools spCbind kmlPolygon GE_SpatialGrid kmlOverlay
 #' @export
 #' @examples
 #' \donttest{
@@ -58,7 +61,7 @@ aoristic.density <- function(spdf, h=0.01, n=128, probs=0.99, output="output"){
       c.sps <- rbind(c.sps, sps.temp) 
     }
   }
-  proj4string(c.sps) <- CRS(spdf@proj4string@projargs)
+  sp::proj4string(c.sps) <- CRS(spdf@proj4string@projargs)
   
   id <- data.frame(id=seq(1:length(c.sps)))
   c.sps <- SpatialPolygonsDataFrame(c.sps, data=id)

@@ -6,13 +6,14 @@
 #' @param lat a character vector of the column name for latitude
 #' @return spatial point data frame (SPDF)
 #' @import lubridate classInt reshape2 GISTools ggplot2 spatstat
+#' @importFrom sp SpatialPointsDataFrame
 #' @export
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
 #' @examples
 #' \donttest{
 #' data(aoristic)
 #' data.spdf <- aoristic.spdf(data=arlington, 
-#'    DateTimeFrom="FrmDateTimeFull", DateTimeTo="ToDateTimeFull", 
+#'    DateTimeFrom="DateTimeFrom", DateTimeTo="DateTimeTo", 
 #'    lon="lon", lat="lat")
 #' }
 aoristic.spdf <- function(data, DateTimeFrom, DateTimeTo, lon, lat){

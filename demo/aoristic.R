@@ -19,3 +19,9 @@ aoristic.density(spdf=data.spdf)
 
 # testing aoristic.shp
 aoristic.shp(spdf=data.spdf, area.shp=CouncilDistrict)
+
+# adding point data
+# install_github("georgekick/misc")
+# library(xtable)
+# library(plotKML)
+# kml_pts(kml.name="pts", spdf=data.spdf)

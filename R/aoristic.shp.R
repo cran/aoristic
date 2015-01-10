@@ -4,7 +4,8 @@
 #' @param output a character representing the name of an output folder (the folder will be generated in the current working directory; default name = output) 
 #' @return kml file
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
-#' @import lubridate classInt reshape2 GISTools ggplot2 spatstat plotKML
+#' @import lubridate classInt reshape2 GISTools ggplot2 spatstat plotKML RColorBrewer 
+#' @importFrom sp proj4string
 #' @export
 #' @examples
 #' \donttest{
@@ -41,6 +42,10 @@ aoristic.shp <- function(spdf, area.shp, output="output"){
   
   if (!check_projection(area.shp)){
     area.shp <- reproject(area.shp)
+  }
+  # projection needs to be identical in words for spatial aggregation to work
+  if (!area.shp@proj4string@projargs==spdf@proj4string@projargs){
+    area.shp <- suppressMessages(reproject(area.shp, spdf@proj4string@projargs, show.output.on.console = FALSE))
   }
   
   # create output location

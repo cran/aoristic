@@ -5,6 +5,7 @@
 #' @return kml file 
 #' @references Ratcliffe, J. H. (2002). Aoristic Signatures and the Spatio-Temporal Analysis of High Volume Crime Patterns. Journal of Quantitative Criminology, 18(1), 23-43. 
 #' @import lubridate classInt reshape2 GISTools ggplot2 spatstat rgdal
+#' @importFrom sp proj4string
 #' @export
 #' @examples
 #' \donttest{
@@ -80,7 +81,7 @@ aoristic.grid <- function(spdf, nxy=5, output="output"){
     }
   }
   
-  proj4string(sps) <- CRS(spdf@proj4string@projargs)
+  sp::proj4string(sps) <- CRS(spdf@proj4string@projargs)
 
 # create SPDF for quadrat count ------    	
 area.shp <- sps
