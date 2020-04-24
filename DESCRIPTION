@@ -1,36 +1,30 @@
 Package: aoristic
 Type: Package
-Title: aoristic analysis with spatial output (kml)
-Version: 0.6
-Date: 2015-01-10
-Author: George Kikuchi
-Maintainer: George Kikuchi <gkikuchi@csufresno.edu>
-Description: 'Aoristic' is one of the past tenses in Greek and represents an
-    uncertain occurrence time.  Aoristic analysis suggested by Ratcliffe (2002)
-    is a method to analyze events that do not have exact times of occurrence
-    but have starting times and ending times.  For example, a property crime
-    database (e.g., burglary) typically has a starting time and ending time of
-    the crime that could have occurred.  Aoristic analysis allocates the
-    probability of a crime incident occurring at every hour over a 24-hour
-    period. The probability is aggregated over a study area to create an
-    aoristic graph.
-    Using crime incident data with lat/lon, DateTimeFrom, and
-    DateTimeTo, functions in this package create a total of three (3) kml
-    files and corresponding aoristic graphs: 1) density and contour; 2) grid
-    count; and 3) shapefile boundary. (see also:
-    https://sites.google.com/site/georgekick/software)
-License: GPL (>= 2)
-Depends: ggplot2, spatstat, GISTools
-Imports: lubridate, classInt, reshape2, rgdal, plotKML, MASS, sp,
-        maptools, RColorBrewer
+Title: Generates Aoristic Probability Distributions
+Version: 1.0.0
+Author: Jerry Ratcliffe
+Maintainer: Jerry Ratcliffe <jhr@temple.edu>
+Description: It can sometimes be difficult to ascertain when some events (such as property crime)
+    occur because the victim is not present when the crime happens. As a result, police databases often
+    record a 'start' (or 'from') date and time, and an 'end' (or 'to') date and time. The time span between
+    these date/times can be minutes, hours, or sometimes days, hence the term 'Aoristic'. 
+    Aoristic is one of the past tenses in Greek and represents an uncertain occurrence in time. 
+    For events with a location describes with either a latitude/longitude, or X,Y coordinate pair, 
+    and a start and end date/time, this package generates an aoristic data frame with aoristic weighted
+    probability values for each hour of the week, for each observation. Outputs include an aoristic data frame, as well as summary graphs and displays. 
+        For more information see:
+    Ratcliffe, JH (2002) Aoristic signatures and the temporal analysis of high volume crime patterns, 
+    Journal of Quantitative Criminology. 18 (1): 23-43.
+    Note: This package replaces an original 'aoristic' package (version 0.6) by George Kikuchi that has been discontinued with his permission. 
+License: GPL-3
+Encoding: UTF-8
+Imports: foreign, formattable, openxlsx, ggplot2, grid, lubridate,
+        htmltools, plyr
+Suggests: webshot
 LazyData: true
-References: Ratcliffe, J. H. (2002). Aoristic Signatures and the
-        Spatio-Temporal Analysis of High Volume Crime Patterns. Journal
-        of Quantitative Criminology, 18(1), 23-43. Arlington PD (n.d.).
-        Statistical Information. Retrieved from
-        http://www.arlingtonpd.org/index.asp?nextpg=stats/index.asp.
-        Accessed in June, 2013.
+RoxygenNote: 7.1.0
+Depends: R (>= 2.10)
 NeedsCompilation: no
-Packaged: 2015-01-10 10:34:35 UTC; gkikuchi
+Packaged: 2020-04-24 02:55:42 UTC; jhr
 Repository: CRAN
-Date/Publication: 2015-01-10 12:06:14
+Date/Publication: 2020-04-24 16:10:13 UTC
